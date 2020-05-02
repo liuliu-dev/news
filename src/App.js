@@ -54,7 +54,7 @@ function NewsBoard(){
   const leftNews = 'abc-news,buzzfeed,cbs-news,cnn,nbc-news,politico,time,the-washington-post,the-huffington-post,msnbc&';
   const rightNews = 'fox-news,the-washington-times,breitbart-news,national-review,the-american-conservative&';
   return(
-    <div className = "ui equal width divided grid">
+    <div className = "ui equal width divided stackable grid">
       <div className='column leftNews'>
         <NewsList newssources = {leftNews} />
       </div>      
@@ -107,7 +107,7 @@ function NewsList(props){
 			/>
       )); 
   return(
-				<div className = 'ui unstackable items' >
+				<div className = 'ui stackable items' >
 					{newsComponents}
 				</div>
 	);
