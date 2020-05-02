@@ -1,0 +1,30 @@
+.leftNews{
+    background-color:#0485a8;
+}
+.rightNews{
+    background-color:#c81305;
+}
+.centernews{
+    background-color:grey;
+}
+.ui.items > .item{
+    background-color: white;
+    padding: 18px;
+}
+.ui.grid{
+    margin: 0;
+}
+.main.ui.fluid.container{
+    margin: 20px;
+}
+
+.description{
+    text-align: left;
+}
+.ui.items>.item>.image>.header{
+    font-size: 1.28571429em;
+    font-weight: bold;
+}
+.ui.items > .item > .image:not(.ui) {
+    width: 150px;
+}
