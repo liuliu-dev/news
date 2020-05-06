@@ -1,5 +1,7 @@
 import React, {useContext,useState, useEffect} from 'react';
 import DatePicker from 'react-date-picker';
+import {useMediaQuery} from 'react-responsive';
+import { Tab } from 'semantic-ui-react';
 import logo from './logo.svg';
 import './App.css';
 const newsUrlComponent = React.createContext({});
@@ -9,21 +11,12 @@ function App() {
   const [newsDate,setDate] = useState(new Date());
   const [country,setCountry] = useState('us');
   const [source,setSource] = useState('associated-press');
-
   return (
     <div className="App">
       <newsUrlComponent.Provider value={{newsDate,setDate,country,setCountry,source,setSource}}>
-        <TopNavList />
+        <CalendarDisplay />
         <NewsBoard />
       </newsUrlComponent.Provider>
-    </div>
-  );
-}
-
-function TopNavList() {
-  return(
-    <div className="ui secondary pointing menu">
-      <CalendarDisplay />
     </div>
   );
 }
@@ -31,7 +24,7 @@ function TopNavList() {
 function CalendarDisplay(){
   const value= useContext(newsUrlComponent);
   return (
-    <div className='item'>
+    <div className='item calendar'>
       <DatePicker
         onChange = {date=>{
           var current=new Date();
@@ -53,18 +46,40 @@ function NewsBoard(){
   const centerNews='associated-press,reuters,bloomberg,bbc-news,the-hill,usa-today,the-wall-street-journal&';
   const leftNews = 'abc-news,buzzfeed,cbs-news,cnn,nbc-news,politico,time,the-washington-post,the-huffington-post,msnbc&';
   const rightNews = 'fox-news,the-washington-times,breitbart-news,national-review,the-american-conservative&';
-  return(
-    <div className = "ui equal width divided stackable grid">
+
+  const panes = [
+    {menuItem:{content:'Blue',color:'blue'}, render:()=> <Tab.Pane className='blue'>
       <div className='column leftNews'>
         <NewsList newssources = {leftNews} />
-      </div>      
+      </div>  
+    </Tab.Pane>},
+    {menuItem:{content:'Grey',color:'grey'}, render:()=> <Tab.Pane className='grey'>
       <div className='column centernews'>
         <NewsList newssources = {centerNews} />
-      </div>  
+      </div>
+    </Tab.Pane>},
+    {menuItem:{content:'Red',color:'red'}, render:()=> <Tab.Pane className='red'>
       <div className='column rightNews'>
         <NewsList newssources = {rightNews} />
-      </div>  
-
+      </div>
+    </Tab.Pane>}
+  ];
+  const isMobiledevice = useMediaQuery({query: '(max-width: 1224px)'});
+  const isDesktopOrLaptop  = useMediaQuery({ query: '(min-width: 1224px)' })
+  return(
+    <div className = "ui equal width divided stackable grid">
+      {isMobiledevice && <Tab panes={panes}/>}
+      {isDesktopOrLaptop && <>
+        <div className='column leftNews'>
+          <NewsList newssources = {leftNews} />
+        </div>
+        <div className='column centernews'>
+          <NewsList newssources = {centerNews} />
+        </div>
+        <div className='column rightNews'>
+          <NewsList newssources = {rightNews} />
+        </div>
+        </>}
     </div>
   );
 }

@@ -28,3 +28,9 @@
 .ui.items > .item > .image:not(.ui) {
     width: 30%;
 }
+.column{
+    padding: 5%;
+}
+.calendar{
+    margin: 10px;
+}
