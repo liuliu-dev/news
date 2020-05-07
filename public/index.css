@@ -28,8 +28,8 @@
 .ui.items > .item > .image:not(.ui) {
     width: 30%;
 }
-.column{
-    padding: 5%;
+.ui.stackable.items{
+    padding: 1em;
 }
 .calendar{
     margin: 10px;

@@ -47,29 +47,29 @@ function NewsBoard(){
   const leftNews = 'abc-news,buzzfeed,cbs-news,cnn,nbc-news,politico,time,the-washington-post,the-huffington-post,msnbc&';
   const rightNews = 'fox-news,the-washington-times,breitbart-news,national-review,the-american-conservative&';
 
-  const panes = [
-    {menuItem:{content:'Blue',color:'blue'}, render:()=> <Tab.Pane className='blue'>
+   const panes = [
+    {menuItem:{content:'Blue',color:'blue'}, render:()=> <Tab.Pane>
       <div className='column leftNews'>
         <NewsList newssources = {leftNews} />
       </div>  
     </Tab.Pane>},
-    {menuItem:{content:'Grey',color:'grey'}, render:()=> <Tab.Pane className='grey'>
+    {menuItem:{content:'Grey',color:'grey'}, render:()=> <Tab.Pane>
       <div className='column centernews'>
         <NewsList newssources = {centerNews} />
       </div>
     </Tab.Pane>},
-    {menuItem:{content:'Red',color:'red'}, render:()=> <Tab.Pane className='red'>
+    {menuItem:{content:'Red',color:'red'}, render:()=> <Tab.Pane>
       <div className='column rightNews'>
         <NewsList newssources = {rightNews} />
       </div>
     </Tab.Pane>}
   ];
   const isMobiledevice = useMediaQuery({query: '(max-width: 1224px)'});
-  const isDesktopOrLaptop  = useMediaQuery({ query: '(min-width: 1224px)' })
+  const isDesktopOrLaptop  = useMediaQuery({ query: '(min-width: 1224px)' }) 
   return(
-    <div className = "ui equal width divided stackable grid">
-      {isMobiledevice && <Tab panes={panes}/>}
-      {isDesktopOrLaptop && <>
+    <div className = "ui equal width divided unstackable grid">
+     {isMobiledevice && <Tab panes={panes}/> }
+     {isDesktopOrLaptop && <>
         <div className='column leftNews'>
           <NewsList newssources = {leftNews} />
         </div>
