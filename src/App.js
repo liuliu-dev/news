@@ -26,7 +26,7 @@ function App() {
     <div className="App">
       <newsUrlComponent.Provider value={{newsDate,setDate,country,setCountry,source,setSource,keyword, setKeyword}}>
         <CalendarDisplay />
-        <input type='text' placeholder='Search...' value={keyword} onChange = {userInput=>{setKeyword(userInput.target.value)}}></input>
+        <input type='text' placeholder='Search News...' value={keyword} onChange = {userInput=>{setKeyword(userInput.target.value)}}></input>
         <NewsBoard />
       </newsUrlComponent.Provider>
     </div>
