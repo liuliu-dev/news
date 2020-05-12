@@ -1,20 +1,32 @@
-import React, {useContext,useState, useEffect} from 'react';
+import React, {useRef,useContext,useState, useEffect} from 'react';
 import DatePicker from 'react-date-picker';
 import {useMediaQuery} from 'react-responsive';
 import { Tab } from 'semantic-ui-react';
 import logo from './logo.svg';
 import './App.css';
+
+import ReactGA from 'react-ga';
 const newsUrlComponent = React.createContext({});
+const _ = require('lodash');
 
 function App() {
+  ReactGA.initialize('UA-165908026-1');
+  const PageView = () => {  
+    ReactGA.pageview(window.location.pathname +  
+                     window.location.search); 
+  }
+  const countpageview=PageView();
+  
 
   const [newsDate,setDate] = useState(new Date());
   const [country,setCountry] = useState('us');
   const [source,setSource] = useState('associated-press');
+  const [keyword, setKeyword]= useState('Coronavirus OR Covid-19 pandemic');
   return (
     <div className="App">
-      <newsUrlComponent.Provider value={{newsDate,setDate,country,setCountry,source,setSource}}>
+      <newsUrlComponent.Provider value={{newsDate,setDate,country,setCountry,source,setSource,keyword, setKeyword}}>
         <CalendarDisplay />
+        <input type='text' placeholder='Search...' value={keyword} onChange = {userInput=>{setKeyword(userInput.target.value)}}></input>
         <NewsBoard />
       </newsUrlComponent.Provider>
     </div>
@@ -86,11 +98,9 @@ function NewsBoard(){
 function NewsList(props){
   const [data, setData] = useState([]);
   const value= useContext(newsUrlComponent);
-
   const newsdate = value.newsDate.getFullYear()+'-'+(value.newsDate.getMonth()+1)+'-'+value.newsDate.getDate();
-
 	const urlSelectDate = 'https://newsapi.org/v2/everything?' +
-          'qInTitle=Coronavirus%20OR%20Covid-19%20OR%20pandemic&' +
+          'q='+value.keyword+'&' +
           'sources='+props.newssources+
           'from='+newsdate+'&'+
           'to='+newsdate+'&'+
@@ -99,14 +109,15 @@ function NewsList(props){
           'apiKey=832f76f6261645f78b4cfb6490835a6c';
   const today= new Date();
 
-  async function getNews(){
-    	const response = await fetch(urlSelectDate);
-    	const news = await response.json();
-    	setData(news.articles);
+  async function getNews(urlSelectDate){
+    const response = await fetch(urlSelectDate);
+    const news = await response.json();
+    setData(news.articles);
   }
-
-  useEffect(()=>{getNews()},[urlSelectDate]);
-  console.log(data.publishedAt);
+  const throttled =useRef(_.debounce(getNews,2000));
+  useEffect(()=>{
+    throttled.current(urlSelectDate)
+  },[urlSelectDate]);
   const newsComponents = data.map((article,index) => (
 			<Product 
 				key = {'article' + index}
