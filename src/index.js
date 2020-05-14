@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <React.StrictMode>
     <div className="main ui fluid container">
-      <h1 className="ui centered header">Covid-19 News</h1>
+      <h1 className="ui centered header">News</h1>
         <App />
     </div>
   </React.StrictMode>,
