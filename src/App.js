@@ -42,7 +42,6 @@ function CalendarDisplay(){
           var current=new Date();
           var latestdate = new Date();
           latestdate.setDate(latestdate.getDate()-30);
-          console.log(latestdate);
           if(Math.round((current. getTime()  - date. getTime())/1000/60/60/24)<31)
             value.setDate(date);
           else
@@ -55,24 +54,60 @@ function CalendarDisplay(){
 }
 
 function NewsBoard(){
-  const centerNews='associated-press,reuters,bloomberg,bbc-news,the-hill,usa-today,the-wall-street-journal&';
-  const leftNews = 'abc-news,buzzfeed,cbs-news,cnn,nbc-news,politico,time,the-washington-post,the-huffington-post,msnbc&';
-  const rightNews = 'fox-news,the-washington-times,breitbart-news,national-review,the-american-conservative&';
+  const centerNews='associated-press,reuters,bloomberg,bbc-news,the-hill,usa-today,the-wall-street-journal,';
+  const leftNews = 'abc-news,buzzfeed,cbs-news,cnn,nbc-news,politico,time,the-washington-post,the-huffington-post,msnbc,';
+  const rightNews = 'fox-news,the-washington-times,breitbart-news,national-review,the-american-conservative';
+  const [[leftNewsList, centerNewsList,rightNewsList],setData] = useState([[],[],[]]);
+  const value= useContext(newsUrlComponent);
+  const newsdate = value.newsDate.getFullYear()+'-'+(value.newsDate.getMonth()+1)+'-'+value.newsDate.getDate();
+  const createUrl=(urlsource,newsdate,value)=>{
+    const url= 'https://newsapi.org/v2/everything?' +
+                        'q='+value.keyword+'&' +
+                        'sources='+urlsource+'&'+
+                        'from='+newsdate+'&'+
+                        'to='+newsdate+'&'+
+                        'sortBy=popularity&' +
+                        'pageSize=100&'+
+                        'sortBy=popularity&'+
+                        'apiKey=832f76f6261645f78b4cfb6490835a6c';
+   return url;
+}
+const leftListUrl=createUrl(leftNews,newsdate,value);
+const rightListUrl=createUrl(rightNews,newsdate,value);
+const centerListUrl=createUrl(centerNews,newsdate,value);
 
+  async function getNews(leftListUrl,rightListUrl,centerListUrl){
+    const responseLeft = await fetch(leftListUrl);
+
+    const newsLeft = await responseLeft.json();
+    const responseRight = await fetch(rightListUrl);
+    const newsRight = await responseRight.json();
+    const responseCenter = await fetch(centerListUrl);
+    const newsCenter = await responseCenter.json();
+    setData([newsLeft.articles,newsCenter.articles,newsRight.articles]);
+  }
+  
+  const throttled =useRef(_.debounce(getNews,1000));
+  useEffect(()=>{
+    throttled.current(leftListUrl,rightListUrl,centerListUrl)
+  },[leftListUrl,rightListUrl,centerListUrl]);
+
+
+    
    const panes = [
     {menuItem:{content:'Blue',color:'blue'}, render:()=> <Tab.Pane>
       <div className='column leftNews'>
-        <NewsList newssources = {leftNews} />
+        <NewsList newssources = {leftNewsList} />
       </div>  
     </Tab.Pane>},
     {menuItem:{content:'Grey',color:'grey'}, render:()=> <Tab.Pane>
       <div className='column centernews'>
-        <NewsList newssources = {centerNews} />
+        <NewsList newssources = {centerNewsList} />
       </div>
     </Tab.Pane>},
     {menuItem:{content:'Red',color:'red'}, render:()=> <Tab.Pane>
       <div className='column rightNews'>
-        <NewsList newssources = {rightNews} />
+        <NewsList newssources = {rightNewsList} />
       </div>
     </Tab.Pane>}
   ];
@@ -83,42 +118,20 @@ function NewsBoard(){
      {isMobiledevice && <Tab panes={panes}/> }
      {isDesktopOrLaptop && <>
         <div className='column leftNews'>
-          <NewsList newssources = {leftNews} />
+          <NewsList newssources = {leftNewsList} />
         </div>
         <div className='column centernews'>
-          <NewsList newssources = {centerNews} />
+          <NewsList newssources = {centerNewsList} />
         </div>
         <div className='column rightNews'>
-          <NewsList newssources = {rightNews} />
+          <NewsList newssources = {rightNewsList} />
         </div>
         </>}
     </div>
   );
 }
-function NewsList(props){
-  const [data, setData] = useState([]);
-  const value= useContext(newsUrlComponent);
-  const newsdate = value.newsDate.getFullYear()+'-'+(value.newsDate.getMonth()+1)+'-'+value.newsDate.getDate();
-	const urlSelectDate = 'https://newsapi.org/v2/everything?' +
-          'q='+value.keyword+'&' +
-          'sources='+props.newssources+
-          'from='+newsdate+'&'+
-          'to='+newsdate+'&'+
-          'sortBy=popularity&' +
-          'pageSize=30&'+
-          'apiKey=832f76f6261645f78b4cfb6490835a6c';
-  const today= new Date();
-
-  async function getNews(urlSelectDate){
-    const response = await fetch(urlSelectDate);
-    const news = await response.json();
-    setData(news.articles);
-  }
-  const throttled =useRef(_.debounce(getNews,2000));
-  useEffect(()=>{
-    throttled.current(urlSelectDate)
-  },[urlSelectDate]);
-  const newsComponents = data.map((article,index) => (
+function NewsList(data){
+   const newsComponents = data.newssources.map((article,index) => (
 			<Product 
 				key = {'article' + index}
 				id = {index}
@@ -136,7 +149,7 @@ function NewsList(props){
 				<div className = 'ui stackable items' >
 					{newsComponents}
 				</div>
-	);
+	); 
 }
 
 function Product (props){
