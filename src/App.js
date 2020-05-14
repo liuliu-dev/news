@@ -67,7 +67,7 @@ function NewsBoard(){
                         'from='+newsdate+'&'+
                         'to='+newsdate+'&'+
                         'sortBy=popularity&' +
-                        'pageSize=100&'+
+                        'pageSize=30&'+
                         'sortBy=popularity&'+
                         'apiKey=832f76f6261645f78b4cfb6490835a6c';
    return url;
