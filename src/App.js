@@ -35,17 +35,16 @@ function App() {
 
 function CalendarDisplay(){
   const value= useContext(newsUrlComponent);
+  var current=new Date();
+  var latestdate = new Date();
+  latestdate.setDate(latestdate.getDate()-30);
   return (
     <div className='item calendar'>
       <DatePicker
-        onChange = {date=>{
-          var current=new Date();
-          var latestdate = new Date();
-          latestdate.setDate(latestdate.getDate()-30);
-          if(Math.round((current. getTime()  - date. getTime())/1000/60/60/24)<31)
+        minDate = {latestdate}
+        maxDate = {current}
+        onChange = {date=>{          
             value.setDate(date);
-          else
-            alert('You are trying to request results too far in the past. Your can request news articles as far back as '+latestdate)
         }}
         value = {value.newsDate}
       />
@@ -78,7 +77,6 @@ const centerListUrl=createUrl(centerNews,newsdate,value);
 
   async function getNews(leftListUrl,rightListUrl,centerListUrl){
     const responseLeft = await fetch(leftListUrl);
-
     const newsLeft = await responseLeft.json();
     const responseRight = await fetch(rightListUrl);
     const newsRight = await responseRight.json();
