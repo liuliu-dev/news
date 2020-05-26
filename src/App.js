@@ -67,21 +67,21 @@ function NewsBoard(){
                         'to='+newsdate+'&'+
                         'sortBy=popularity&' +
                         'pageSize=30&'+
-                        'sortBy=popularity&'+
-                        'apiKey=832f76f6261645f78b4cfb6490835a6c';
+                        'sortBy=popularity';
    return url;
 }
-const leftListUrl=createUrl(leftNews,newsdate,value);
-const rightListUrl=createUrl(rightNews,newsdate,value);
-const centerListUrl=createUrl(centerNews,newsdate,value);
+var  proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+const leftListUrl=proxyUrl+createUrl(leftNews,newsdate,value);
+const rightListUrl=proxyUrl+createUrl(rightNews,newsdate,value);
+const centerListUrl=proxyUrl+createUrl(centerNews,newsdate,value);
 
 
   async function getNews(leftListUrl,rightListUrl,centerListUrl){
-    const responseLeft = await fetch(leftListUrl,{mode: 'no-cors'});
+    const responseLeft = await fetch(leftListUrl,{headers:{'X-Api-Key':'832f76f6261645f78b4cfb6490835a6c'}});
     const newsLeft = await responseLeft.json();
-    const responseRight = await fetch(rightListUrl,{mode: 'no-cors'});
+    const responseRight = await fetch(rightListUrl,{headers:{'X-Api-Key':'832f76f6261645f78b4cfb6490835a6c'}});
     const newsRight = await responseRight.json();
-    const responseCenter = await fetch(centerListUrl,{mode: 'no-cors'});
+    const responseCenter = await fetch(centerListUrl,{headers:{'X-Api-Key':'832f76f6261645f78b4cfb6490835a6c'}});
     const newsCenter = await responseCenter.json();
     setData([newsLeft.articles,newsCenter.articles,newsRight.articles]);
   }
