@@ -130,6 +130,7 @@ const centerListUrl=proxyUrl+createUrl(centerNews,newsdate,value);
   );
 }
 function NewsList(data){
+  console.log(data)
    const newsComponents = data.newssources.map((article,index) => (
 			<Product 
 				key = {'article' + index}
@@ -139,7 +140,7 @@ function NewsList(data){
         url = {article.url}
         source = {article.source.name}
         newsImageUrl = {article.urlToImage}
-        publishTime = {article.publishedAt}
+        publishTime = {new Date(article.publishedAt).toString()}
         author = {article.author}
         content = {article.content}
 			/>
