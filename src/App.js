@@ -60,28 +60,25 @@ function NewsBoard(){
   const value= useContext(newsUrlComponent);
   const newsdate = value.newsDate.getFullYear()+'-'+(value.newsDate.getMonth()+1)+'-'+value.newsDate.getDate();
   const createUrl=(urlsource,newsdate,value)=>{
-    const url= 'https://newsapi.org/v2/everything?' +
+    const url= 'https://leftmidrightnews.herokuapp.com/?' +
                         'q='+value.keyword+'&' +
                         'sources='+urlsource+'&'+
-                        'from='+newsdate+'&'+
-                        'to='+newsdate+'&'+
-                        'sortBy=popularity&' +
-                        'pageSize=30&'+
-                        'sortBy=popularity';
+                        'fromdate='+newsdate+'&'+
+                        'to='+newsdate
    return url;
 }
-var  proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-const leftListUrl=proxyUrl+createUrl(leftNews,newsdate,value);
-const rightListUrl=proxyUrl+createUrl(rightNews,newsdate,value);
-const centerListUrl=proxyUrl+createUrl(centerNews,newsdate,value);
+
+const leftListUrl=createUrl(leftNews,newsdate,value);
+const rightListUrl=createUrl(rightNews,newsdate,value);
+const centerListUrl=createUrl(centerNews,newsdate,value);
 
 
   async function getNews(leftListUrl,rightListUrl,centerListUrl){
-    const responseLeft = await fetch(leftListUrl,{headers:{'X-Api-Key':'832f76f6261645f78b4cfb6490835a6c'}});
+    const responseLeft = await fetch(leftListUrl,{headers:{'X-Api-Key':'832f76f6261645f78b4cfb6490835a6c'},mode:'cors'});
     const newsLeft = await responseLeft.json();
-    const responseRight = await fetch(rightListUrl,{headers:{'X-Api-Key':'832f76f6261645f78b4cfb6490835a6c'}});
+    const responseRight = await fetch(rightListUrl,{headers:{'X-Api-Key':'832f76f6261645f78b4cfb6490835a6c'},mode:'cors'});
     const newsRight = await responseRight.json();
-    const responseCenter = await fetch(centerListUrl,{headers:{'X-Api-Key':'832f76f6261645f78b4cfb6490835a6c'}});
+    const responseCenter = await fetch(centerListUrl,{headers:{'X-Api-Key':'832f76f6261645f78b4cfb6490835a6c'},mode:'cors'});
     const newsCenter = await responseCenter.json();
     setData([newsLeft.articles,newsCenter.articles,newsRight.articles]);
   }
