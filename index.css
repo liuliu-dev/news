@@ -26,5 +26,13 @@
     font-weight: bold;
 }
 .ui.items > .item > .image:not(.ui) {
-    width: 150px;
+    width: 30%;
+}
+.ui.stackable.items{
+    padding: 1em;
+}
+.calendar{
+    margin: 10px;
+    display: inline-flex;
+    margin-right: 10%;
 }
