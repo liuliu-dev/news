@@ -2,22 +2,28 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://liuliu-dev.github.io/news/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "lodash": "^4.17.15",
+    "gh-pages": "^3.2.0",
+    "lodash": "^4.17.21",
+    "nan": "^2.14.2",
     "react": "^16.13.1",
     "react-date-picker": "^8.0.1",
     "react-dom": "^16.13.1",
     "react-ga": "^2.7.0",
     "react-responsive": "^8.0.3",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^4.0.3",
     "react-touch-carousel": "^0.9.4",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^0.88.2"
+    "semantic-ui-react": "^0.88.2",
+    "typescript": "^4.3.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -37,5 +43,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "prettier": "2.3.1",
+    "xxxxx": "^1.0.3"
   }
 }
