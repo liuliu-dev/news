@@ -5,6 +5,6 @@ A site showcasing news from Liberal, Neutral and Conservative sources on the sam
 <img src="https://github.com/liuliu-dev/news/blob/master/News.gif" width="800">
 
 <h1>Try it!</h1>
-Visit the page [here](https://liuliu-dev.github.io/news/)
-[Demo](http://liuliu-dev.github.io/news/) is available.
+Visit the page here: https://liuliu-dev.github.io/news/
+
 
