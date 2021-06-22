@@ -1,5 +1,5 @@
 <h1>Introduction</h1>
-A site showcasing news from Liberal, Neutral and Conservative sources on the same topic.
+A site showcasing news from Liberal, Neutral and Conservative sources of the same topic on a specific date.
 
 <h1>Showcase</h1>
 <img src="https://github.com/liuliu-dev/news/blob/master/News.gif" width="800">
